@@ -1,8 +1,7 @@
 package dev.api.service;
 
-import dev.api.domain.Coupon;
+import dev.api.producer.CouponCreateProducer;
 import dev.api.respositroy.CouponCountRepository;
-import dev.api.respositroy.CouponRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +9,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ApplyService {
 
-    private final CouponRepository couponRepository;
     private final CouponCountRepository couponCountRepository;
+    private final CouponCreateProducer couponCreateProducer;
 
     public void apply(Long userId) {
         Long count = couponCountRepository.increment();
@@ -20,6 +19,6 @@ public class ApplyService {
             return;
         }
 
-        couponRepository.save(new Coupon(userId));
+        couponCreateProducer.create(userId);
     }
 }
